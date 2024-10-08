@@ -12,7 +12,6 @@ import OverviewCourses from "src/pages/Admin/pages/Courses/components/OverviewCo
 import Home from "src/pages/Home";
 import Login from "src/pages/Login";
 import ErrorElement from "../../pages/ErrorElement";
-import Footer from "../Footer";
 import Header from "../Header";
 import ProtectedRoute from "../ProtectedRoute";
 import ScrollToTop from "../ScrollToTop";
@@ -61,8 +60,6 @@ const App = () => {
               <Route path="*" element={<ErrorElement />} />
             </Routes>
           </main>
-
-          {/* <Footer /> */}
         </div>
       )}
     </div>
