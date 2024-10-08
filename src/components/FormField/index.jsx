@@ -19,7 +19,7 @@ const FormField = ({
 
       <input
         {...register(id)}
-        className={`rounded-2xl border border-slate-500 bg-transparent py-2 focus:outline-[#b0181c] ${icon ? "pl-9 placeholder:pl-1 md:pl-11" : "px-3"}`}
+        className={`w-full rounded-2xl border border-slate-500 bg-transparent py-2 focus:outline-[#b0181c] ${icon ? "pl-9 placeholder:pl-1 md:pl-11" : "px-3"}`}
         type={type}
         id={id}
         placeholder={placeholder}
