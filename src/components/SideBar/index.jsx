@@ -14,7 +14,7 @@ const SideBar = () => {
         style={{
           height: `${isHeaderHidden ? "100vh" : `calc(100vh - ${window.screenX < 1280 ? "68px" : "70px"})`}`,
         }}
-        className={`${isHeaderHidden ? "top-0" : "top-[68px] xl:top-[70px]"} fixed left-0 z-40 w-[250px] bg-zinc-50 p-6 transition-all duration-300`}
+        className={`${isHeaderHidden ? "top-0" : "top-[68px] xl:top-[70px]"} fixed left-0 w-[250px] bg-zinc-50 p-6 transition-all duration-300`}
       >
         <ul className="xl:flex xl:flex-col xl:gap-y-3 xl:text-lg">
           <li className="transition-colors hover:text-[#b0181c] xl:cursor-pointer">
