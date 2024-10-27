@@ -72,29 +72,27 @@ const Event = ({
 
             <div className="flex flex-col text-gray-600">
               <span className="min-w-[102px]">
-                De <strong>{formatHour(s)}</strong> le{" "}
+                De <strong>{formatHour(s).replace(":", "h")}</strong> le{" "}
                 <strong>{formatDate(s)}</strong>
               </span>
 
               <span className="min-w-[102px]">
-                à <strong>{formatHour(e)}</strong> le{" "}
+                à <strong>{formatHour(e).replace(":", "h")}</strong> le{" "}
                 <strong>{formatDate(e)}</strong>
               </span>
             </div>
           </div>
 
           {/* Display au-dessus de tablette */}
-          {/* <div className="hidden md:flex md:flex-1 md:justify-between"> */}
           <span className="hidden md:flex md:min-w-[84px] md:flex-1">{t}</span>
 
           <span className="hidden md:flex md:min-w-[102px] md:flex-1">
-            {formatHour(s)} le {formatDate(s)}
+            {formatHour(s).replace(":", "h")} le {formatDate(s)}
           </span>
 
           <span className="hidden md:flex md:min-w-[102px] md:flex-1">
-            {formatHour(e)} le {formatDate(e)}
+            {formatHour(e).replace(":", "h")} le {formatDate(e)}
           </span>
-          {/* </div> */}
         </div>
 
         <div className="md:hidden">
