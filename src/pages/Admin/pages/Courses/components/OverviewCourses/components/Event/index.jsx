@@ -56,7 +56,7 @@ const Event = ({
     >
       <div className="flex w-full items-center justify-between">
         <div className="flex gap-x-5 md:flex-1 md:items-center md:justify-between">
-          <div className="flex items-center">
+          <div className="flex items-center md:flex-auto">
             <input
               type="checkbox"
               className="w-3.5 cursor-pointer"
@@ -66,6 +66,7 @@ const Event = ({
             />
           </div>
 
+          {/* Display on mobile */}
           <div className="flex flex-col md:hidden">
             <span className="mb-2 min-w-[84px] font-bold">{t}</span>
 
@@ -82,14 +83,15 @@ const Event = ({
             </div>
           </div>
 
+          {/* Display au-dessus de tablette */}
           {/* <div className="hidden md:flex md:flex-1 md:justify-between"> */}
-          <span className="hidden md:flex md:min-w-[84px]">{t}</span>
+          <span className="hidden md:flex md:min-w-[84px] md:flex-1">{t}</span>
 
-          <span className="hidden md:flex md:min-w-[102px]">
+          <span className="hidden md:flex md:min-w-[102px] md:flex-1">
             {formatHour(s)} le {formatDate(s)}
           </span>
 
-          <span className="hidden md:flex md:min-w-[102px]">
+          <span className="hidden md:flex md:min-w-[102px] md:flex-1">
             {formatHour(e)} le {formatDate(e)}
           </span>
           {/* </div> */}

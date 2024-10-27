@@ -110,7 +110,7 @@ const OverviewCourses = () => {
 
       <div className="relative rounded-md bg-white shadow-lg">
         <header className="flex items-center justify-between gap-x-5 border-b border-gray-400 px-4 py-3">
-          <div>
+          <div className="md:ml-1 md:flex-auto">
             <input
               className="w-3.5 cursor-pointer"
               type="checkbox"
@@ -124,13 +124,15 @@ const OverviewCourses = () => {
 
           <SearchBar setSearchBarFilter={setSearchBarFilter} />
 
-          <span className="hidden min-w-[84px] font-semibold md:block">
+          <span className="hidden md:block md:min-w-[84px] md:flex-1 md:font-semibold">
             Évènement
           </span>
-          <span className="hidden min-w-[102px] font-semibold md:block">
+
+          <span className="hidden md:block md:min-w-[102px] md:flex-1 md:font-semibold">
             Date de début
           </span>
-          <span className="hidden min-w-[102px] font-semibold md:block">
+          
+          <span className="hidden md:block md:min-w-[102px] md:flex-1 md:font-semibold">
             Date de fin
           </span>
         </header>
