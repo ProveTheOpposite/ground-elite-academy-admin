@@ -204,7 +204,7 @@ const CoursesForm = () => {
           label="L'heure du début du cours :"
           register={register}
           type="text"
-          placeholder="Ex : 09:00"
+          placeholder="Ex : 09:00. Respectez bien les ' : '"
           errors={errors.hoursStart}
         />
 
@@ -214,7 +214,7 @@ const CoursesForm = () => {
           label="L'heure de la fin du cours :"
           register={register}
           type="text"
-          placeholder="Ex : 11:30"
+          placeholder="Ex : 11:30. Respectez bien les ' : '"
           errors={errors.hoursEnd}
         />
 
