@@ -1,8 +1,6 @@
 // React & Hooks
 import { useState } from "react";
-import { Link } from "react-router-dom";
-
-// State Management
+import { NavLink } from "react-router-dom";
 
 // Components
 import Button from "src/components/Button";
@@ -11,14 +9,12 @@ import Button from "src/components/Button";
 import PropTypes from "prop-types";
 
 const HeaderMobile = ({ setShowMenu, showMenu, openSignOutModal }) => {
-  // Nouvel état pour le sous-menu de "Gestion des cours"
   const [showSubMenu, setShowSubMenu] = useState(true);
 
   const handleClickHideMenu = () => {
     setShowMenu(false);
   };
 
-  // Fonction pour basculer le sous-menu
   const toggleSubMenu = () => {
     setShowSubMenu(!showSubMenu);
   };
@@ -30,20 +26,21 @@ const HeaderMobile = ({ setShowMenu, showMenu, openSignOutModal }) => {
       } fixed left-0 top-0 flex h-full w-full flex-col justify-evenly bg-white px-8 transition-transform duration-300 ease-out md:px-16 xl:hidden`}
     >
       <ul className="flex flex-col justify-center gap-y-7 text-2xl font-medium">
-        {/* Lien Tableau de bord */}
         <li className="transition-colors hover:text-[#b0181c]">
-          <i className={`fa-solid fa-house mr-4 w-[30px]`}></i>
-
-          <Link
+          <NavLink
+            className={({ isActive }) =>
+              isActive
+                ? "font-semibold text-[#b0181c]"
+                : "cursor-pointer tracking-wide"
+            }
             to="/"
-            className="cursor-pointer tracking-wide"
             onClick={handleClickHideMenu}
           >
+            <i className={`fa-solid fa-house mr-4 w-[30px]`}></i>
             Tableau de bord
-          </Link>
+          </NavLink>
         </li>
 
-        {/* Lien Gestion des cours avec sous-menu */}
         <li
           className={`${showSubMenu ? "h-[117px]" : "h-[32px]"} overflow-hidden transition-all`}
         >
@@ -57,34 +54,40 @@ const HeaderMobile = ({ setShowMenu, showMenu, openSignOutModal }) => {
             </span>
           </div>
 
-          {/* Sous-menu, conditionnellement visible */}
           <ul className="mt-4 space-y-3 pl-8 text-xl">
             <li>
-              <Link
+              <NavLink
+                className={({ isActive }) =>
+                  isActive
+                    ? "font-semibold text-[#b0181c]"
+                    : "tracking-wide transition-colors hover:text-[#b0181c]"
+                }
                 to="/admin/courses/add-course"
-                className="tracking-wide transition-colors hover:text-[#b0181c]"
                 onClick={handleClickHideMenu}
               >
                 <i className="fa-solid fa-calendar-days mr-2 w-[30px]"></i>
                 Ajouter un cours
-              </Link>
+              </NavLink>
             </li>
 
             <li>
-              <Link
+              <NavLink
+                className={({ isActive }) =>
+                  isActive
+                    ? "font-semibold text-[#b0181c]"
+                    : "tracking-wide transition-colors hover:text-[#b0181c]"
+                }
                 to="/admin/courses/overview"
-                className="tracking-wide transition-colors hover:text-[#b0181c]"
                 onClick={handleClickHideMenu}
               >
                 <i className="fa-solid fa-eye mr-2 w-[30px]"></i>
                 Vue d&apos;ensemble
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </li>
       </ul>
 
-      {/* Bouton de déconnexion */}
       <div className="flex flex-col items-start gap-y-8">
         <Button
           className="bg-[#b0181c] !text-lg text-white"
@@ -94,7 +97,6 @@ const HeaderMobile = ({ setShowMenu, showMenu, openSignOutModal }) => {
         </Button>
       </div>
 
-      {/* Bouton pour fermer le menu */}
       <i
         onClick={handleClickHideMenu}
         className="fa-solid fa-xmark absolute right-3 top-3 flex w-[48px] items-center justify-center rounded-full py-1 text-3xl transition-colors hover:bg-slate-100"
