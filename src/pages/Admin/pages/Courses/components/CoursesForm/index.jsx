@@ -22,18 +22,34 @@ import * as yup from "yup";
 import Button from "src/components/Button";
 import FormField from "src/components/FormField";
 
-const schema = yup.object({
-  title: yup.string().required("Le titre est obligatoire"),
-  dateOfEvent: yup.string().required("Le date est obligatoire"),
-  hoursStart: yup.string().required("L'heure de début est obligatoire"),
-  hoursEnd: yup.string().required("L'heure de fin est obligatoire"),
-  typeEvent: yup.string().required("Le type d'évènement est obligatoire"),
+const eventTypeStyles = {
+  Lutte: {
+    active: "bg-blue-500 text-white",
+    inactive: "border-blue-500 text-blue-500",
+  },
+  Grappling: {
+    active: "bg-[#b0181c] text-white",
+    inactive: "border-[#b0181c] text-[#b0181c]",
+  },
+  Autre: {
+    active: "bg-yellow-600 text-white",
+    inactive: "border-yellow-600 text-yellow-600",
+  },
+};
+
+const validationSchema = yup.object({
+  title: yup.string().required("Le titre est requis"),
+  dateOfEvent: yup.string().required("La date est requise"),
+  hoursStart: yup.string().required("L'heure de début est requise"),
+  hoursEnd: yup.string().required("L'heure de fin est requise"),
+  typeEvent: yup.string().required("Le type d'évènement est requis"),
 });
 
 const CoursesForm = () => {
   const { courseId } = useParams();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedTypeEvent, setSelectedTypeEvent] = useState("");
 
   const setEventsSchedule = useSetRecoilState(eventsScheduleState);
 
@@ -41,26 +57,51 @@ const CoursesForm = () => {
     handleSubmit,
     register,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
       title: "",
-      dateOfEvent: new Date(),
+      dateOfEvent: new Date().toISOString().slice(0, 10),
       hoursStart: "",
       hoursEnd: "",
       typeEvent: "",
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(validationSchema),
   });
 
-  // function to add a course on db
-  const onSubmit = async (data) => {
-    const { title, dateOfEvent, hoursStart, hoursEnd, typeEvent } = data;
+  // Fetch event details when editing
+  useEffect(() => {
+    if (!courseId) return;
+
+    const fetchEventDetails = async () => {
+      try {
+        const eventDoc = await getDoc(doc(db, "courses", courseId));
+        if (eventDoc.exists()) {
+          const { title, start, end, typeEvent } = eventDoc.data();
+          reset({
+            title,
+            dateOfEvent: start.slice(0, 10),
+            hoursStart: start.slice(11, 16),
+            hoursEnd: end.slice(11, 16),
+            typeEvent,
+          });
+          setSelectedTypeEvent(typeEvent);
+        }
+      } catch (error) {
+        console.error("Erreur lors de la récupération des données :", error);
+      }
+    };
+    fetchEventDetails();
+  }, [courseId, reset]);
+
+  const handleFormSubmit = async (formData) => {
+    const { title, dateOfEvent, hoursStart, hoursEnd } = formData;
     const courseData = {
       title,
       start: `${dateOfEvent}T${hoursStart}:00`,
       end: `${dateOfEvent}T${hoursEnd}:00`,
-      typeEvent,
+      typeEvent: selectedTypeEvent,
     };
 
     try {
@@ -68,65 +109,36 @@ const CoursesForm = () => {
       const courseRef = courseId
         ? doc(db, "courses", courseId)
         : doc(collection(db, "courses"));
-
       await setDoc(courseRef, courseData, { merge: true });
 
-      const newCourse = { ...courseData, id: courseRef.id };
       setEventsSchedule((prevEvents) => {
-        // verify if the event already exists
-        const eventIndex = prevEvents.findIndex(
+        const updatedEvent = { ...courseData, id: courseRef.id };
+        const existingEventIndex = prevEvents.findIndex(
           (event) => event.id === courseRef.id,
         );
 
-        if (eventIndex !== -1) {
-          // replace the existing event
-          const updatedEvents = [...prevEvents];
-          updatedEvents[eventIndex] = newCourse;
-          return updatedEvents;
+        if (existingEventIndex !== -1) {
+          return prevEvents.map((event, index) =>
+            index === existingEventIndex ? updatedEvent : event,
+          );
         } else {
-          // add the new event
-          return [...prevEvents, newCourse];
+          return [...prevEvents, updatedEvent];
         }
       });
 
       reset();
       toast.success(`${courseId ? "Modification" : "Ajout"} réussi !`);
     } catch (error) {
+      console.error(
+        `Erreur lors de ${courseId ? "la sauvegarde" : "l'ajout"} du cours !`,
+      );
       toast.error(
         `Erreur lors de ${courseId ? "la sauvegarde" : "l'ajout"} du cours !`,
       );
-      console.log("Erreur:", error);
     } finally {
       setIsLoading(false);
     }
   };
-
-  // Effect to get events from db (for edit)
-  useEffect(() => {
-    if (!courseId) return;
-
-    const fetchEvent = async () => {
-      try {
-        const eventRef = doc(db, "courses", courseId);
-        const eventSnap = await getDoc(eventRef);
-
-        if (eventSnap.exists()) {
-          const eventData = eventSnap.data();
-          reset({
-            title: eventData.title,
-            dateOfEvent: eventData.start?.slice(0, 10) || "",
-            hoursStart: eventData.start?.slice(11, 16) || "",
-            hoursEnd: eventData.end?.slice(11, 16) || "",
-            typeEvent: eventData.typeEvent,
-          });
-        }
-      } catch (error) {
-        console.error("Erreur lors de la récupération des données :", error);
-      }
-    };
-
-    fetchEvent();
-  }, [courseId, reset]);
 
   return (
     <div className="mt-[68px] flex-1 px-5 py-7 lg:w-[800px] lg:flex-none lg:px-16 lg:pt-10 xl:mt-[70px] 2xl:w-[950px]">
@@ -160,11 +172,11 @@ const CoursesForm = () => {
       <p className="mb-6">
         {courseId
           ? "Vous pouvez modifier un cours si vous avez fait une gaffe ou si vous souhaitez simplement faire un changement sur des cours existants."
-          : "Ici, vous pouvez ajouter les cours que vous souhaitez mais également des évènements autre que le sport : Noël, gouter, etc..."}
+          : "Ici, vous pouvez ajouter les cours que vous souhaitez mais également des évènements autre que le sport : Noël, goûter, etc..."}
       </p>
 
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(handleFormSubmit)}
         className="flex flex-col items-center gap-y-10 lg:gap-y-12"
       >
         <FormField
@@ -192,7 +204,7 @@ const CoursesForm = () => {
           label="L'heure du début du cours :"
           register={register}
           type="text"
-          placeholder="Ex : 09:00. Respectez bien les ' : '"
+          placeholder="Ex : 09:00"
           errors={errors.hoursStart}
         />
 
@@ -202,29 +214,53 @@ const CoursesForm = () => {
           label="L'heure de la fin du cours :"
           register={register}
           type="text"
-          placeholder="Ex : 11:30. Respectez bien les ' : '"
+          placeholder="Ex : 11:30"
           errors={errors.hoursEnd}
         />
 
-        <FormField
-          className="w-full"
-          id="typeEvent"
-          label="Type d'évènement :"
-          register={register}
-          type="text"
-          placeholder="Lutte, Grappling ou Autre"
-          errors={errors.hoursEnd}
-        />
+        <div className="flex w-full flex-col">
+          <label className="mb-3 ml-1 font-bold lg:mb-2" htmlFor="typeEvent">
+            Type d&apos;évènement :
+          </label>
 
-        <div className="w-full">
-          <Button className="w-full bg-[#b0181c] text-white md:py-3">
-            {isLoading ? (
-              <i className="fa-solid fa-spinner animate-spin text-xl"></i>
-            ) : (
-              "Soumettre"
-            )}
-          </Button>
+          <div className="flex gap-x-6">
+            {["Lutte", "Grappling", "Autre"].map((type) => {
+              const isActive = watch("typeEvent") === type;
+              const style =
+                eventTypeStyles[type][isActive ? "active" : "inactive"];
+              return (
+                <label
+                  key={type}
+                  onClick={() => setSelectedTypeEvent(type)}
+                  className={`cursor-pointer rounded-full border px-4 py-0.5 font-semibold transition-opacity hover:opacity-85 ${style}`}
+                >
+                  <input
+                    type="radio"
+                    value={type}
+                    {...register("typeEvent")}
+                    className="hidden"
+                  />
+                  {type}
+                </label>
+              );
+            })}
+          </div>
+
+          {errors.typeEvent && (
+            <p className="mt-2 text-sm text-red-600 md:-bottom-7 md:text-base">
+              <i className="fa-solid fa-triangle-exclamation mr-1"></i>{" "}
+              {errors.typeEvent.message}
+            </p>
+          )}
         </div>
+
+        <Button className="w-full bg-[#b0181c] text-white md:py-3">
+          {isLoading ? (
+            <i className="fa-solid fa-spinner animate-spin text-xl"></i>
+          ) : (
+            "Soumettre"
+          )}
+        </Button>
       </form>
     </div>
   );
