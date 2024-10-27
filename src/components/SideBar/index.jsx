@@ -1,7 +1,7 @@
 // hook
 import { useRecoilValue } from "recoil";
 // react router dom
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 // atom
 import { isHeaderHiddenState } from "src/recoil";
 
@@ -18,24 +18,39 @@ const SideBar = () => {
       >
         <ul className="xl:flex xl:flex-col xl:gap-y-3 xl:text-lg">
           <li className="transition-colors hover:text-[#b0181c] xl:cursor-pointer">
-            <Link to="/">
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "font-semibold text-[#b0181c]" : ""
+              }
+              to="/"
+            >
               <i className="fa-solid fa-home xl:mr-5 xl:w-[15px]"></i>
               Tableau de bord
-            </Link>
+            </NavLink>
           </li>
 
           <li className="transition-colors hover:text-[#b0181c] xl:cursor-pointer">
-            <Link to="/admin/courses/add-course">
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "font-semibold text-[#b0181c]" : ""
+              }
+              to="/admin/courses/add-course"
+            >
               <i className="fa-solid fa-calendar-days xl:mr-5 xl:w-[15px]"></i>
               Ajout des cours
-            </Link>
+            </NavLink>
           </li>
 
           <li className="transition-colors hover:text-[#b0181c] xl:cursor-pointer">
-            <Link to="/admin/courses/overview">
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "font-semibold text-[#b0181c]" : ""
+              }
+              to="/admin/courses/overview"
+            >
               <i className="fa-solid fa-eye xl:mr-5 xl:w-[15px]"></i>
               Vue d&apos;ensemble
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </nav>
