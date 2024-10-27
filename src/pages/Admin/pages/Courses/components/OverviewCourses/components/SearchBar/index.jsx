@@ -8,10 +8,10 @@ const SearchBar = ({ setSearchBarFilter }) => {
   };
 
   return (
-    <div className="md:hidden">
+    <div className="md:absolute md:left-14">
       <input
         type="text"
-        className="border-b border-gray-400 px-2 pb-0.5 outline-none"
+        className="rounded-none border-b border-gray-400 px-2 pb-0.5 outline-none md:w-32 lg:w-44 2xl:w-52"
         placeholder="Rechercher..."
         onInput={handleInput}
       />

@@ -109,7 +109,7 @@ const OverviewCourses = () => {
       </Toaster>
 
       <div className="relative rounded-md bg-white shadow-lg">
-        <header className="flex items-center justify-between gap-x-5 border-b border-gray-400 px-4 py-3">
+        <header className="flex items-center justify-between gap-x-5 border-b border-gray-400 px-4 py-3 md:relative">
           <div className="md:ml-1 md:flex-auto">
             <input
               className="w-3.5 cursor-pointer"
@@ -131,7 +131,7 @@ const OverviewCourses = () => {
           <span className="hidden md:block md:min-w-[102px] md:flex-1 md:font-semibold">
             Date de début
           </span>
-          
+
           <span className="hidden md:block md:min-w-[102px] md:flex-1 md:font-semibold">
             Date de fin
           </span>
