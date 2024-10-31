@@ -97,6 +97,7 @@ const CoursesForm = () => {
 
   const handleFormSubmit = async (formData) => {
     const { title, dateOfEvent, hoursStart, hoursEnd } = formData;
+
     const courseData = {
       title,
       start: `${dateOfEvent}T${hoursStart}:00`,
@@ -203,8 +204,7 @@ const CoursesForm = () => {
           id="hoursStart"
           label="L'heure du début du cours :"
           register={register}
-          type="text"
-          placeholder="Ex : 09:00. Respectez bien les ' : '"
+          type="time"
           errors={errors.hoursStart}
         />
 
@@ -213,8 +213,7 @@ const CoursesForm = () => {
           id="hoursEnd"
           label="L'heure de la fin du cours :"
           register={register}
-          type="text"
-          placeholder="Ex : 11:30. Respectez bien les ' : '"
+          type="time"
           errors={errors.hoursEnd}
         />
 
