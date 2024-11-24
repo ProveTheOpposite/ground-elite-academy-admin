@@ -142,7 +142,7 @@ const CoursesForm = () => {
   };
 
   return (
-    <div className="mt-[68px] flex-1 px-5 py-7 lg:w-[800px] lg:flex-none lg:px-16 lg:pt-10 xl:mt-[70px] 2xl:w-[950px]">
+    <div className="mt-[68px] flex-1 px-5 py-7 lg:w-[800px] lg:flex-none lg:px-10 xl:mt-0 2xl:w-[950px] 2xl:px-16 2xl:py-12">
       <Toaster
         position={window.innerWidth >= 1024 ? "bottom-left" : "top-right"}
         reverseOrder={false}

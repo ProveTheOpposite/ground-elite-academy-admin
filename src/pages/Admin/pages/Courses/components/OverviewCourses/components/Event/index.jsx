@@ -59,7 +59,7 @@ const Event = ({
           <div className="flex items-center md:flex-auto">
             <input
               type="checkbox"
-              className="w-3.5 cursor-pointer"
+              className="scale-110 cursor-pointer"
               checked={selectedCourses[id] || false}
               onClick={(e) => e.stopPropagation()}
               onChange={() => handleSelectCourse(id)}
@@ -84,13 +84,15 @@ const Event = ({
           </div>
 
           {/* Display au-dessus de tablette */}
-          <span className="hidden md:flex md:min-w-[84px] md:flex-1">{t}</span>
+          <span className="hidden md:flex md:min-w-[84px] md:flex-1 md:font-semibold">
+            {t}
+          </span>
 
-          <span className="hidden md:flex md:min-w-[102px] md:flex-1">
+          <span className="hidden text-[#444] md:flex md:min-w-[102px] md:flex-1">
             {formatHour(s).replace(":", "h")} le {formatDate(s)}
           </span>
 
-          <span className="hidden md:flex md:min-w-[102px] md:flex-1">
+          <span className="hidden text-[#444] md:flex md:min-w-[102px] md:flex-1">
             {formatHour(e).replace(":", "h")} le {formatDate(e)}
           </span>
         </div>

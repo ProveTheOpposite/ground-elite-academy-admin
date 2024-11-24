@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
-    <div className="mt-[68px] flex-1 px-5 py-7 xl:mt-[70px]">
+    <div className="mt-[68px] flex-1 px-5 py-7 lg:px-10 xl:mt-0">
       <h1 className="mb-5 text-3xl font-bold lg:mb-8 xl:text-4xl">
         Bienvenue sur le{" "}
         <span className="text-[#b0181c]">panel d&apos;administration</span>.

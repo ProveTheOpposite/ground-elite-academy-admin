@@ -1,33 +1,27 @@
 // React & Hooks
 import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
-
-// firebase
-import { getAuth, signOut } from "firebase/auth";
 
 // atom
 import { isHeaderHiddenState, openModalState } from "src/recoil";
 
 // Components
-import Button from "../Button";
 import Confirmation from "../Confirmation";
 import Modal from "../Modal";
-import HeaderMobile from "./HeaderMobile";
-
-// PropTypes
-import PropTypes from "prop-types";
+import SubHeader from "./SubHeader";
 
 // Assets & Translations
 import { imageUrl } from "src/assets/images/imagesList";
 
-const Header = () => {
+// utils
+import { handleClickSignOut } from "src/utils";
+
+const HeaderMobile = () => {
   const [isHeaderMobileVisible, setIsHeaderMobileVisible] = useState(false);
 
   const [openModal, setOpenModal] = useRecoilState(openModalState);
   const [isHidden, setIsHidden] = useRecoilState(isHeaderHiddenState);
-
-  const navigate = useNavigate();
 
   const lastScrollTop = useRef(0);
 
@@ -51,16 +45,6 @@ const Header = () => {
     };
   }, [setIsHidden]);
 
-  const handleClickSignOut = async () => {
-    try {
-      const auth = getAuth();
-      await signOut(auth);
-      navigate("/login");
-    } catch (e) {
-      console.error("Error : ", e);
-    }
-  };
-
   // function to open the header mobile
   const toggleMenu = () => {
     setIsHeaderMobileVisible(!isHeaderMobileVisible);
@@ -78,7 +62,7 @@ const Header = () => {
 
   return (
     <header
-      className={`${isHidden ? "top-[-68px] xl:top-[-70px]" : ""} fixed left-0 top-0 z-40 flex h-[68px] w-full items-center justify-between bg-white px-5 shadow-lg transition-all duration-300 lg:pl-10 xl:h-[70px] xl:justify-between xl:px-24 2xl:px-44`}
+      className={`${isHidden ? "top-[-68px] xl:top-[-70px]" : ""} fixed left-0 top-0 z-40 flex h-[68px] w-full items-center justify-between bg-white px-5 shadow-lg transition-all duration-300 lg:pl-10 xl:hidden`}
     >
       {openModal === "signOut" && (
         <Modal onClick={handleClickCloseModal}>
@@ -100,21 +84,12 @@ const Header = () => {
         </Link>
       </h2>
 
-      <div className="hidden xl:flex xl:items-center xl:gap-x-9">
-        <Button
-          className="bg-[#b0181c] text-white hover:bg-[#7d2a2d]"
-          onClick={handleClickOpenModal}
-        >
-          Se déconnecter
-        </Button>
-      </div>
-
       <i
         onClick={toggleMenu}
         className={`fa-solid fa-bars flex w-[42px] cursor-pointer items-center justify-center rounded-full py-1 text-2xl transition-colors hover:bg-slate-100 xl:hidden`}
       ></i>
 
-      <HeaderMobile
+      <SubHeader
         showMenu={isHeaderMobileVisible}
         setShowMenu={setIsHeaderMobileVisible}
         openSignOutModal={handleClickOpenModal}
@@ -123,4 +98,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HeaderMobile;
