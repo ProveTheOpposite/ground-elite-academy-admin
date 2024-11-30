@@ -127,7 +127,7 @@ const CoursesForm = () => {
         }
       });
 
-      // reset(); 
+      reset(); 
       toast.success(`${courseId ? "Modification" : "Ajout"} réussi !`);
     } catch (error) {
       console.error(
