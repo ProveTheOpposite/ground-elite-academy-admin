@@ -1,3 +1,5 @@
+import React from "react";
+
 // hook
 import { useNavigate } from "react-router-dom";
 
@@ -51,7 +53,7 @@ const Event = ({
 
   return (
     <div
-      className={`${typeEvent === "Lutte" ? "border-blue-500" : typeEvent === "Grappling" ? "border-[#b0181c]" : "border-yellow-600"} ${window.innerWidth >= 768 ? "cursor-pointer hover:bg-slate-50" : ""} flex items-center justify-between gap-x-5 border-b border-l-4 border-b-gray-400 py-3 pl-4 pr-7 last:rounded-es-md last:border-b-0 md:py-4 md:pr-8`}
+      className={`${typeEvent === "Lutte" ? "border-blue-500" : typeEvent === "Grappling" ? "border-[#b0181c]" : "border-yellow-600"} ${window.innerWidth >= 768 ? "cursor-pointer hover:bg-slate-50" : ""} flex items-center justify-between gap-x-5 border-b-2 border-l-4 border-r-2 border-b-gray-300 border-r-gray-300 py-3 pl-4 pr-7 last:rounded-ee-xl last:rounded-es-xl md:py-4 md:pr-8`}
       onClick={window.innerWidth >= 768 ? handleClickNavigate : undefined}
     >
       <div className="flex w-full items-center justify-between">
@@ -117,4 +119,4 @@ Event.propTypes = {
   setSelectedCourses: PropTypes.func.isRequired,
 };
 
-export default Event;
+export default React.memo(Event);

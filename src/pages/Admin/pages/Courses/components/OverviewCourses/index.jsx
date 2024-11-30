@@ -1,8 +1,6 @@
 // hooks
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
-
-// react router dom
 
 // atom
 import { eventsScheduleState, openModalState } from "src/recoil";
@@ -15,49 +13,98 @@ import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { db } from "src/server/firebase";
 
 // components
-import { useRef } from "react";
 import Confirmation from "src/components/Confirmation";
 import Modal from "src/components/Modal";
 import Event from "./components/Event";
 import Filter from "./components/Filter";
+import Pagination from "./components/Pagination";
 import SearchBar from "./components/SearchBar";
 
 const OverviewCourses = () => {
   const [selectedCourses, setSelectedCourses] = useState({});
   const [selectAll, setSelectAll] = useState(false);
+
   const [searchBarFilter, setSearchBarFilter] = useState("");
-  const [isFilterClicked, setIsFilterClicked] = useState(false);
+
+  const [elemRef, setElemRef] = useState("");
+
+  const [filteredEvents, setFilteredEvents] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const filterClickedRef = useRef(null);
+  const subMenuItemsPerPageClickedRef = useRef(null);
 
   const [eventsSchedule, setEventsSchedule] =
     useRecoilState(eventsScheduleState);
 
   const [openModal, setOpenModal] = useRecoilState(openModalState);
 
-  const handleClickFilter = () => {
-    setIsFilterClicked(true);
-  };
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = eventsSchedule.slice(indexOfFirstItem, indexOfLastItem);
 
-  const handleClickOutsideFilter = (e) => {
-    if (
-      filterClickedRef.current &&
-      !filterClickedRef.current.contains(e.target)
-    ) {
-      setIsFilterClicked(false);
+  // update filteredEvents with elems paginated
+  const handlePaginate = useCallback((items) => {
+    setFilteredEvents(items);
+  }, []);
+
+  // hide the elems needed refs
+  const handleClickOutsideElemRefs = (e, refs, activeElemRef) => {
+    if (!activeElemRef) return;
+
+    const activeRef = refs[activeElemRef];
+
+    if (activeRef?.current && !activeRef.current.contains(e.target)) {
+      setElemRef("");
     }
   };
 
+  // effect to remove the elems needed refs
+  useEffect(() => {
+    const handleClick = (e) =>
+      handleClickOutsideElemRefs(
+        e,
+        {
+          filter: filterClickedRef,
+          subMenuItemsPerPage: subMenuItemsPerPageClickedRef,
+        },
+        elemRef,
+      );
+
+    document.addEventListener("mousedown", handleClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+    };
+  }, [elemRef]);
+
   // Handle the select all checkbox
   const handleSelectAll = () => {
-    const newSelection = Object.keys(selectedCourses).reduce((acc, key) => {
-      acc[key] = !selectAll;
+    const allSelected = Object.values(selectedCourses).every(
+      (isSelected) => isSelected,
+    );
+
+    const newSelection = eventsSchedule.reduce((acc, event) => {
+      acc[event.id] = !allSelected;
       return acc;
     }, {});
-    setSelectAll(!selectAll);
+
     setSelectedCourses(newSelection);
+    setSelectAll(!allSelected);
   };
 
+  // update selectAll if all the elements visibles are selected
+  useEffect(() => {
+    const currentPageSelected = currentItems.every(
+      (item) => selectedCourses[item.id],
+    );
+
+    setSelectAll(currentPageSelected);
+  }, [currentItems, selectedCourses]);
+
+  // delete courses
   const handleDeleteCourses = async () => {
     const selectedIds = Object.keys(selectedCourses).filter(
       (id) => selectedCourses[id],
@@ -83,14 +130,6 @@ const OverviewCourses = () => {
     }
   };
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutsideFilter);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutsideFilter);
-    };
-  }, []);
-
   // Effect to get events from db
   useEffect(() => {
     const fetchEvents = async () => {
@@ -100,6 +139,11 @@ const OverviewCourses = () => {
         id: doc.id,
       }));
       setEventsSchedule(eventsData);
+
+      // Force un premier affichage des événements paginés
+      if (eventsData.length > 0) {
+        setFilteredEvents(eventsData.slice(0, 10)); // Assure que les premiers éléments sont visibles
+      }
 
       // Initialize the selectedCourses state
       const initialSelection = eventsData.reduce((acc, event) => {
@@ -113,7 +157,7 @@ const OverviewCourses = () => {
   }, [setEventsSchedule]);
 
   return (
-    <div className="mt-[68px] flex-1 px-4 pb-16 pt-8 xl:mt-0 2xl:px-8">
+    <div className="mt-[68px] flex-1 px-4 pb-20 pt-8 xl:mt-0 2xl:px-8">
       <Toaster
         position={window.innerWidth >= 1024 ? "bottom-right" : "top-right"}
         reverseOrder={false}
@@ -137,9 +181,12 @@ const OverviewCourses = () => {
 
       <SearchBar setSearchBarFilter={setSearchBarFilter} />
 
-      <div className="mt-5">
+      <div className="mt-5 rounded-xl border border-gray-300 bg-zinc-50 p-4 shadow-md md:pb-5">
         <div className="relative flex justify-end pb-3 pr-5">
-          <span onClick={handleClickFilter} className="h-[28px] w-[28px]">
+          <span
+            onClick={() => setElemRef("filter")}
+            className="h-[28px] w-[28px]"
+          >
             <i
               className={`fa-solid fa-sliders ${
                 Object.values(selectedCourses).some((isSelected) => isSelected)
@@ -149,14 +196,18 @@ const OverviewCourses = () => {
             ></i>
           </span>
 
-          {isFilterClicked && <Filter filterClickedRef={filterClickedRef} />}
+          {elemRef === "filter" && (
+            <Filter filterClickedRef={filterClickedRef} />
+          )}
         </div>
 
-        <div className="relative rounded-md bg-white shadow-lg">
-          <header className="flex items-center justify-between gap-x-5 border-b border-gray-400 px-4 py-3 md:relative">
+        <div className="relative bg-zinc-50">
+          <header
+            className={`flex items-center justify-between gap-x-1 ${Object.values(selectedCourses).some((isSelected) => isSelected) ? "rounded-es-none rounded-se-none" : eventsSchedule.length === 0 ? "rounded-xl" : "rounded-se-xl rounded-ss-xl"} border-2 border-gray-300 px-4 py-3 md:relative`}
+          >
             <div className="md:ml-1 md:flex-auto">
               <input
-                className="scale-110 cursor-pointer"
+                className="scale-110 cursor-pointer outline-none"
                 type="checkbox"
                 checked={
                   selectAll ||
@@ -167,8 +218,6 @@ const OverviewCourses = () => {
                 onChange={handleSelectAll}
               />
             </div>
-
-            {/* <SearchBar setSearchBarFilter={setSearchBarFilter} /> */}
 
             <span className="hidden md:block md:min-w-[84px] md:flex-1 md:font-semibold">
               Évènement
@@ -189,7 +238,7 @@ const OverviewCourses = () => {
                 Object.values(selectedCourses).some((isSelected) => isSelected)
                   ? "-top-12 z-0"
                   : "top-0 -z-10"
-              } flex w-full items-center justify-between rounded-se-md rounded-ss-md bg-[#d9edfd] px-4 py-2 transition-all duration-300`}
+              } flex w-full items-center justify-between rounded-se-xl rounded-ss-xl bg-[#d9edfd] px-4 py-2 transition-all duration-300`}
             >
               <div>
                 <span
@@ -206,7 +255,7 @@ const OverviewCourses = () => {
                   }}
                   className="mr-3 text-gray-600"
                 >
-                  <i className="fa-solid fa-xmark cursor-pointer"></i>
+                  <i className="fa-solid fa-xmark cursor-pointer lg:text-lg"></i>
                 </span>
 
                 <span>
@@ -228,8 +277,8 @@ const OverviewCourses = () => {
               </button>
             </div>
 
-            {eventsSchedule.length > 0 ? (
-              eventsSchedule
+            {filteredEvents.length > 0 ? (
+              filteredEvents
                 .filter(({ title }) =>
                   title.toLowerCase().startsWith(searchBarFilter),
                 )
@@ -246,11 +295,26 @@ const OverviewCourses = () => {
                   />
                 ))
             ) : (
-              <p className="p-3 text-center lg:p-5">
+              <p className="py-8 text-center lg:p-12">
                 Il n&apos;y a actuellement aucun cours ou événement planifié.
               </p>
             )}
           </div>
+
+          {eventsSchedule.length > 0 && (
+            <Pagination
+              onPaginate={handlePaginate}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              itemsPerPage={itemsPerPage}
+              setItemsPerPage={setItemsPerPage}
+              currentItems={currentItems}
+              indexOfFirstItem={indexOfFirstItem}
+              indexOfLastItem={indexOfLastItem}
+              elemRef={elemRef}
+              subMenuItemsPerPageClickedRef={subMenuItemsPerPageClickedRef}
+            />
+          )}
         </div>
       </div>
 
