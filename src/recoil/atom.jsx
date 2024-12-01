@@ -23,3 +23,9 @@ export const openModalState = atom({
   key: "openModalState",
   default: null,
 });
+
+// atom stockant les filtres des cours
+export const filtersCoursesState = atom({
+  key: "filtersCoursesState",
+  default: [],
+});

@@ -30,8 +30,6 @@ const Pagination = ({
 
   // update if events schedule change
   useEffect(() => {
-    console.log(currentItems);
-
     if (eventsSchedule.length > 0) {
       onPaginate(currentItems);
     }
