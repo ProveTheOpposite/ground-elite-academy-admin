@@ -18,13 +18,15 @@ import Modal from "src/components/Modal";
 import Event from "./components/Event";
 import Filter from "./components/Filter";
 import Pagination from "./components/Pagination";
-import SearchBar from "./components/SearchBar";
+import SearchBars from "./components/SearchBars";
 
 const OverviewCourses = () => {
   const [selectedCourses, setSelectedCourses] = useState({});
   const [selectAll, setSelectAll] = useState(false);
 
   const [searchBarFilter, setSearchBarFilter] = useState("");
+  const [dateFilter, setDateFilter] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
 
   const [elemRef, setElemRef] = useState("");
 
@@ -179,13 +181,17 @@ const OverviewCourses = () => {
         )}
       </Toaster>
 
-      <SearchBar setSearchBarFilter={setSearchBarFilter} />
+      <SearchBars
+        setSearchBarFilter={setSearchBarFilter}
+        setDateFilter={setDateFilter}
+        setCategoryFilter={setCategoryFilter}
+      />
 
       <div className="mt-5 rounded-xl border border-gray-300 bg-zinc-50 p-4 shadow-md md:pb-5">
         <div className="relative flex justify-end pb-3 pr-5">
           <span
             onClick={() => setElemRef("filter")}
-            className="h-[28px] w-[28px]"
+            className="flex h-[28px] w-[28px] items-center justify-center rounded-md p-4 transition-colors hover:bg-slate-100"
           >
             <i
               className={`fa-solid fa-sliders ${
@@ -282,6 +288,10 @@ const OverviewCourses = () => {
                 .filter(({ title }) =>
                   title.toLowerCase().startsWith(searchBarFilter),
                 )
+                .filter(({ start }) =>
+                  start.slice(0, 10).startsWith(dateFilter),
+                )
+                .filter(({ typeEvent }) => typeEvent.startsWith(categoryFilter))
                 .map(({ id, title, start, end, typeEvent }) => (
                   <Event
                     key={id}
