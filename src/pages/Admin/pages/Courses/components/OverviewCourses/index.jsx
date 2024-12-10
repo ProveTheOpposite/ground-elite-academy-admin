@@ -187,7 +187,7 @@ const OverviewCourses = () => {
         setCategoryFilter={setCategoryFilter}
       />
 
-      <div className="mt-5 rounded-xl border border-gray-300 bg-zinc-50 p-4 shadow-md md:pb-5">
+      <div className="mt-5 rounded-xl border border-slate-400 bg-zinc-50 p-4 shadow-md md:pb-5">
         <div className="relative flex justify-end pb-3 pr-5">
           <span
             onClick={() => setElemRef("filter")}
@@ -209,7 +209,7 @@ const OverviewCourses = () => {
 
         <div className="relative bg-zinc-50">
           <header
-            className={`flex items-center justify-between gap-x-1 ${Object.values(selectedCourses).some((isSelected) => isSelected) ? "rounded-es-none rounded-se-none" : eventsSchedule.length === 0 ? "rounded-xl" : "rounded-se-xl rounded-ss-xl"} border-2 border-gray-300 px-4 py-3 md:relative`}
+            className={`flex items-center justify-between gap-x-1 ${Object.values(selectedCourses).some((isSelected) => isSelected) ? "rounded-es-none rounded-se-none" : eventsSchedule.length === 0 ? "rounded-xl" : "rounded-se-xl rounded-ss-xl"} border border-slate-400 px-4 py-3 md:relative`}
           >
             <div className="md:ml-1 md:flex-auto">
               <input
