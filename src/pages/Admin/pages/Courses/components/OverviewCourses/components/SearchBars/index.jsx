@@ -38,12 +38,16 @@ const SearchBars = ({
 
   return (
     <div className="flex flex-col gap-y-5 min-[700px]:flex-row min-[700px]:flex-wrap min-[700px]:gap-x-5">
-      <input
-        type="text"
-        className="w-full rounded-xl border border-gray-400 px-4 py-2.5 focus:outline-[#b0181c] min-[700px]:w-64"
-        placeholder="Rechercher cours..."
-        onInput={handleInputSearchCourses}
-      />
+      <div className="relative">
+        <i className="fa-solid fa-magnifying-glass pt absolute left-3 top-[14.9px] text-gray-400"></i>
+
+        <input
+          type="text"
+          className="w-full rounded-xl border border-gray-400 px-9 py-2.5 focus:outline-[#b0181c] min-[700px]:w-64"
+          placeholder="Rechercher cours..."
+          onInput={handleInputSearchCourses}
+        />
+      </div>
 
       {filtersCourses
         .slice() // create copy to avoid to modify the state
@@ -73,7 +77,7 @@ const SearchBars = ({
                 className="fa-regular fa-square-minus cursor-pointer text-xl"
               ></i>
             </div>
-          ) : filter.typeNode === "selector" ? (
+          ) : (
             <div
               key={filter.id}
               className="flex items-center gap-x-4 pr-2 min-[700px]:pr-0"
@@ -95,19 +99,6 @@ const SearchBars = ({
                   )
                 }
                 className="fa-regular fa-square-minus cursor-pointer text-xl"
-              ></i>
-            </div>
-          ) : (
-            <div key={filter.id} className="flex items-center gap-x-4 pr-2">
-              <input
-                type="text"
-                className="w-full rounded-xl border border-gray-400 px-4 py-2.5 focus:outline-[#b0181c]"
-                placeholder="Je mange tout"
-              />
-
-              <i
-                onClick={() => handleClickRemoveFilter(filter.typeNode)}
-                className="fa-regular fa-square-minus text-xl"
               ></i>
             </div>
           ),

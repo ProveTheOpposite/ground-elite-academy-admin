@@ -53,7 +53,7 @@ const Event = ({
 
   return (
     <div
-      className={`${typeEvent === "Lutte" ? "border-blue-500" : typeEvent === "Grappling" ? "border-[#b0181c]" : "border-yellow-600"} ${window.innerWidth >= 768 ? "cursor-pointer hover:bg-slate-50" : ""} flex items-center justify-between gap-x-5 border-b-2 border-l-4 border-r-2 border-b-gray-300 border-r-gray-300 py-3 pl-4 pr-7 last:rounded-ee-xl last:rounded-es-xl md:py-4 md:pr-8`}
+      className={`${typeEvent === "Lutte" ? "border-blue-500" : typeEvent === "Grappling" ? "border-[#b0181c]" : "border-yellow-600"} ${window.innerWidth >= 768 ? "cursor-pointer hover:bg-slate-100" : ""} flex items-center justify-between gap-x-5 border-b border-l-4 border-r border-b-slate-400 border-r-slate-400 py-3 pl-4 pr-7 last:rounded-ee-xl last:rounded-es-xl md:py-4 md:pr-8`}
       onClick={window.innerWidth >= 768 ? handleClickNavigate : undefined}
     >
       <div className="flex w-full items-center justify-between">
