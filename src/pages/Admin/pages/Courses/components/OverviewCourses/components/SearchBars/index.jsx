@@ -86,7 +86,7 @@ const SearchBars = ({
                 onInput={handleSelectCategory}
                 className="h-[46px] w-full cursor-pointer rounded-xl border border-gray-400 px-4 py-2.5 focus:outline-[#b0181c] min-[700px]:w-64"
               >
-                <option value=""></option>
+                <option value="">Choisissez un type</option>
                 <option value="Lutte">Lutte</option>
                 <option value="Grappling">Grappling</option>
                 <option value="Autre">Autre</option>
