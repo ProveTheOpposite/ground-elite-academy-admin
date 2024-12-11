@@ -64,7 +64,7 @@ const SearchBars = ({
             >
               <input
                 type="date"
-                className="w-full rounded-xl border border-gray-400 px-4 py-2.5 focus:outline-[#b0181c] min-[700px]:w-64"
+                className="h-[46px] flex-1 rounded-xl border border-gray-400 px-4 py-2.5 focus:outline-[#b0181c] min-[700px]:w-64"
                 onInput={handleInputDate}
               />
 
@@ -84,7 +84,7 @@ const SearchBars = ({
             >
               <select
                 onInput={handleSelectCategory}
-                className="w-full cursor-pointer rounded-xl border border-gray-400 px-4 py-2.5 focus:outline-[#b0181c] min-[700px]:w-64"
+                className="h-[46px] w-full cursor-pointer rounded-xl border border-gray-400 px-4 py-2.5 focus:outline-[#b0181c] min-[700px]:w-64"
               >
                 <option value=""></option>
                 <option value="Lutte">Lutte</option>
