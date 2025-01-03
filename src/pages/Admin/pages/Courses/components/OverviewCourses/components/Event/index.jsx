@@ -58,14 +58,32 @@ const Event = ({
     >
       <div className="flex w-full items-center justify-between">
         <div className="flex gap-x-5 md:flex-1 md:items-center md:justify-between">
-          <div className="flex items-center md:flex-auto">
+          <div className="relative flex items-center md:flex-auto">
             <input
               type="checkbox"
-              className="scale-110 cursor-pointer"
+              className="absolute h-[18px] w-[18px] cursor-pointer opacity-0"
               checked={selectedCourses[id] || false}
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
               onChange={() => handleSelectCourse(id)}
             />
+
+            <div
+              className={`flex h-[18px] w-[18px] items-center justify-center rounded-[4px] transition-colors duration-200 ${selectedCourses[id] || false ? "bg-blue-500" : "border border-slate-400"}`}
+            >
+              {selectedCourses[id] && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="20px"
+                  viewBox="0 -960 960 960"
+                  width="20px"
+                  fill="#fff"
+                >
+                  <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
+                </svg>
+              )}
+            </div>
           </div>
 
           {/* Display on mobile */}

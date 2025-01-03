@@ -213,8 +213,8 @@ const OverviewCourses = () => {
           >
             <div className="md:ml-1 md:flex-auto">
               <input
-                className="scale-110 cursor-pointer outline-none"
                 type="checkbox"
+                className="absolute h-[18px] w-[18px] cursor-pointer opacity-0"
                 checked={
                   selectAll ||
                   Object.values(selectedCourses).some(
@@ -223,6 +223,24 @@ const OverviewCourses = () => {
                 }
                 onChange={handleSelectAll}
               />
+
+              <div
+                className={`flex h-[18px] w-[18px] items-center justify-center rounded-[4px] transition-colors duration-200 ${
+                  selectAll ? "bg-blue-500" : "border border-slate-400"
+                }`}
+              >
+                {selectAll && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="20px"
+                    viewBox="0 -960 960 960"
+                    width="20px"
+                    fill="#fff"
+                  >
+                    <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
+                  </svg>
+                )}
+              </div>
             </div>
 
             <span className="hidden md:block md:min-w-[84px] md:flex-1 md:font-semibold">
