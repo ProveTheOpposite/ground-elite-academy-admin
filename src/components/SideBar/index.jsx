@@ -83,11 +83,11 @@ const SideBar = () => {
             />
           </Link>
 
-          <ul className="flex flex-col gap-y-5 pl-7 text-xl">
+          <ul className="flex flex-col gap-y-4 pr-10 text-xl">
             {links.map((link) => (
               <li
                 key={link.id}
-                className="transition-colors hover:text-[#b0181c] xl:cursor-pointer"
+                className={`rounded-e-3xl py-1.5 pl-7 transition-colors hover:text-[#b0181c] xl:cursor-pointer ${location.pathname === link.path ? "bg-[#b0181c]" : ""}`}
               >
                 <NavLink className="flex items-center" to={link.path}>
                   <svg
@@ -95,9 +95,7 @@ const SideBar = () => {
                     height="24px"
                     width="24px"
                     viewBox="0 -960 960 960"
-                    fill={
-                      location.pathname === link.path ? "#b0181c" : "#c6c6c6"
-                    }
+                    fill={location.pathname === link.path ? "#fff" : "#c6c6c6"}
                     className="xl:mr-3"
                   >
                     <path
