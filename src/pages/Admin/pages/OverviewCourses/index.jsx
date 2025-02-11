@@ -189,9 +189,9 @@ const OverviewCourses = () => {
 
       <div className="mt-5 rounded-xl border border-slate-400 bg-zinc-50 p-4 shadow-md md:pb-5">
         <div className="relative flex justify-end pb-3 pr-5">
-          <span
+          <div
             onClick={() => setElemRef("filter")}
-            className="flex h-[28px] w-[28px] items-center justify-center rounded-md p-4 transition-colors hover:bg-slate-100"
+            className="flex h-[28px] w-[28px] items-center justify-center gap-x-2 rounded-md p-4 transition-colors hover:bg-slate-100"
           >
             <i
               className={`fa-solid fa-sliders ${
@@ -200,7 +200,7 @@ const OverviewCourses = () => {
                   : "block"
               } cursor-pointer text-xl text-gray-600`}
             ></i>
-          </span>
+          </div>
 
           {elemRef === "filter" && (
             <Filter filterClickedRef={filterClickedRef} />

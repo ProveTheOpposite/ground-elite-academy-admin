@@ -7,8 +7,9 @@ import { Route, Routes } from "react-router-dom";
 // atom
 import { isAdminState } from "src/recoil";
 // components
-import CoursesForm from "src/pages/Admin/pages/Courses/components/CoursesForm";
-import OverviewCourses from "src/pages/Admin/pages/Courses/components/OverviewCourses";
+import CoursesForm from "src/pages/Admin/pages/CoursesForm";
+import CreateArticle from "src/pages/Admin/pages/CreateArticle";
+import OverviewCourses from "src/pages/Admin/pages/OverviewCourses";
 import Home from "src/pages/Home";
 import Login from "src/pages/Login";
 import ErrorElement from "../../pages/ErrorElement";
@@ -19,9 +20,10 @@ import SideBar from "../SideBar";
 
 const protectedRoutes = [
   { path: "/", element: <Home /> },
-  { path: "/admin/courses/add-course", element: <CoursesForm /> },
-  { path: "/admin/courses/edit/:courseId", element: <CoursesForm /> },
-  { path: "/admin/courses/overview", element: <OverviewCourses /> },
+  { path: "/admin/add-course", element: <CoursesForm /> },
+  { path: "/admin/edit-course/:courseId", element: <CoursesForm /> },
+  { path: "/admin/overview-courses", element: <OverviewCourses /> },
+  { path: "/admin/create-article", element: <CreateArticle /> },
 ];
 
 const App = () => {

@@ -1,0 +1,69 @@
+/* titles */
+.preview-wrapper h1 {
+  font-weight: bold;
+  margin-bottom: 13px;
+  font-size: 30px;
+}
+
+.preview-wrapper h2 {
+  font-weight: bold;
+  margin-bottom: 13px;
+  font-size: 26px;
+}
+
+.preview-wrapper h3 {
+  font-weight: bold;
+  margin-bottom: 13px;
+  font-size: 22px;
+}
+
+.preview-wrapper h4 {
+  font-weight: bold;
+  margin-bottom: 13px;
+  font-size: 18px;
+}
+
+.preview-wrapper h5 {
+  font-weight: bold;
+  margin-bottom: 13px;
+  font-size: 14px;
+}
+
+.preview-wrapper h6 {
+  font-weight: bold;
+  margin-bottom: 13px;
+  font-size: 10px;
+}
+
+/* para */
+.preview-wrapper p {
+  margin-bottom: 15px;
+}
+
+/* link */
+.preview-wrapper a {
+  color: #b0181c;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.preview-wrapper a:hover {
+  text-decoration: none;
+}
+
+/* lists */
+.preview-wrapper ul {
+  margin: 15px 0;
+  padding-left: 40px;
+  list-style: disc;
+}
+
+.preview-wrapper ol {
+  margin: 15px 0;
+  padding-left: 40px;
+  list-style: decimal;
+}
+
+.preview-wrapper blockquote {
+  margin: 15px 40px;
+}

@@ -30,7 +30,7 @@ const Event = ({
 
   // Handle click to navigate
   const handleClickNavigate = () => {
-    navigate(`/admin/courses/edit/${id}`);
+    navigate(`/admin/edit-course/${id}`);
   };
 
   // format dates
@@ -118,7 +118,7 @@ const Event = ({
         </div>
 
         <div className="md:hidden">
-          <Link to={`/admin/courses/edit/${id}`}>
+          <Link to={`/admin/edit-course/${id}`}>
             <i className="fa-solid fa-pen rounded-full p-2 text-gray-600 transition-colors hover:bg-sky-100"></i>
           </Link>
         </div>

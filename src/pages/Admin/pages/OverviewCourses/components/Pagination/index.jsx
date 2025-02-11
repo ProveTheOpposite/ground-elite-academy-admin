@@ -180,7 +180,7 @@ const Pagination = ({
             {indexOfFirstItem + 1}-
             {Math.min(indexOfLastItem, eventsSchedule.length)}
           </span>{" "}
-          sur {eventsSchedule.length}
+          sur {eventsSchedule.length} cours
         </div>
       </div>
 
@@ -215,7 +215,7 @@ const Pagination = ({
               {indexOfFirstItem + 1}-
               {Math.min(indexOfLastItem, eventsSchedule.length)}
             </span>{" "}
-            sur {eventsSchedule.length}
+            sur {eventsSchedule.length} cours
           </div>
 
           <div className="flex w-20 items-start">

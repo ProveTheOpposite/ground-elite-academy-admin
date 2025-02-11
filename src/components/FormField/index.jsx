@@ -10,6 +10,7 @@ const FormField = ({
   placeholder,
   icon,
   errors,
+  accept,
 }) => {
   return (
     <div className={`${className ? className : ""} relative flex flex-col`}>
@@ -23,6 +24,7 @@ const FormField = ({
         type={type}
         id={id}
         placeholder={placeholder}
+        accept={accept}
       />
 
       <i
@@ -49,6 +51,7 @@ FormField.propTypes = {
   placeholder: PropTypes.string,
   icon: PropTypes.string,
   errors: PropTypes.object,
+  accept: PropTypes.string,
 };
 
 export default FormField;
