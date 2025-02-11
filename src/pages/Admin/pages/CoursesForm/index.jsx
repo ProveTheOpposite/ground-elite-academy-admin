@@ -127,7 +127,7 @@ const CoursesForm = () => {
         }
       });
 
-      reset(); 
+      reset();
       toast.success(`${courseId ? "Modification" : "Ajout"} réussi !`);
     } catch (error) {
       console.error(
@@ -142,7 +142,7 @@ const CoursesForm = () => {
   };
 
   return (
-    <div className="mt-[68px] flex-1 px-5 py-7 lg:w-[800px] lg:flex-none lg:px-10 xl:mt-0 2xl:w-[950px] 2xl:px-16 2xl:py-12">
+    <div className="mt-[68px] flex-1 px-4 py-5 lg:w-[800px] lg:flex-none lg:px-10 xl:mt-0 2xl:w-[950px] 2xl:px-16 2xl:py-12">
       <Toaster
         position={window.innerWidth >= 1024 ? "bottom-left" : "top-right"}
         reverseOrder={false}
@@ -164,11 +164,11 @@ const CoursesForm = () => {
         )}
       </Toaster>
 
-      <h2 className="mb-3 text-2xl font-bold lg:text-4xl">
+      <h1 className="mb-3 text-2xl font-bold lg:text-4xl">
         {courseId
           ? "Modification des cours :"
           : "Création de cours pour le planning :"}
-      </h2>
+      </h1>
 
       <p className="mb-6">
         {courseId
